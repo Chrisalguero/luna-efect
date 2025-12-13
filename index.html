@@ -31,6 +31,17 @@
       width: 100%;
     }
 
+    #start {
+      position: fixed;
+      inset: 0;
+      background: transparent;
+      border: none;
+      color: white;
+      font-size: 1.3rem;
+      z-index: 10;
+      cursor: pointer;
+    }
+
     .mensaje {
       position: absolute;
       top: -50px;
@@ -86,6 +97,9 @@
 <body>
 
 <h1>Feliz cumpleaños, hermosa 🎂✨</h1>
+
+<button id="start">Toca la pantalla 💛</button>
+
 <div class="luna"></div>
 
 <audio id="musica" loop>
@@ -142,16 +156,14 @@
     setTimeout(() => s.remove(), 700);
   });
 
-  // música (solo después de tocar)
+  // iniciar música
   const audio = document.getElementById("musica");
-  function iniciarMusica() {
-    audio.play().catch(()=>{});
-    document.removeEventListener("click", iniciarMusica);
-    document.removeEventListener("touchstart", iniciarMusica);
-  }
+  const btn = document.getElementById("start");
 
-  document.addEventListener("click", iniciarMusica);
-  document.addEventListener("touchstart", iniciarMusica);
+  btn.addEventListener("click", () => {
+    audio.play();
+    btn.remove();
+  });
 </script>
 
 </body>
