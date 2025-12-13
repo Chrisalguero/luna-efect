@@ -3,33 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Feliz Cumple ❤️</title>
+  <title>Feliz Cumple 🎂</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 
   <style>
     body {
       margin: 0;
-      padding: 0;
       height: 100vh;
       overflow: hidden;
       background: radial-gradient(circle at 20% 30%, #1e2759, #0a0f29);
       animation: brilloFondo 6s ease-in-out infinite;
-      font-family: "Poppins", sans-serif;
+      font-family: sans-serif;
     }
 
     h1 {
       font-family: 'Pacifico', cursive;
       position: absolute;
-      bottom: 90px;
+      bottom: 80px;
       left: 50%;
       transform: translateX(-50%);
-      text-align: center;
-      width: 100%;
-      font-size: 2.6rem;
+      font-size: 2.5rem;
       color: white;
       text-shadow: 0 0 10px rgba(0,0,0,0.5);
       z-index: 3;
+      text-align: center;
+      width: 100%;
     }
 
     .mensaje {
@@ -39,13 +38,13 @@
       color: white;
       font-size: 1.2rem;
       opacity: 0.9;
-      animation: caer 9s linear infinite;
+      animation: caer linear infinite;
       z-index: 3;
     }
 
     @keyframes caer {
-      0% { transform: translateY(-50px); opacity: 1; }
-      100% { transform: translateY(110vh); opacity: 0; }
+      from { transform: translateY(-50px); opacity: 1; }
+      to { transform: translateY(110vh); opacity: 0; }
     }
 
     .estrella {
@@ -60,18 +59,18 @@
     }
 
     @keyframes parpadeo {
-      0%, 100% { opacity: 0.3; }
+      0%,100% { opacity: 0.3; }
       50% { opacity: 1; }
     }
 
     .luna {
       position: absolute;
       top: 60px;
-      right: 70px;
+      right: 60px;
       width: 140px;
       height: 140px;
       border-radius: 50%;
-      background: #f5e9b8;
+      background: radial-gradient(circle at 30% 30%, #fff6d6, #d6cfa3 70%);
       box-shadow: 0 0 40px rgba(255,255,200,0.6);
       z-index: 2;
     }
@@ -86,89 +85,74 @@
 
 <body>
 
-  <h1>Feliz cumpleaños, hermosa 🎂✨</h1>
+<h1>Feliz cumpleaños, hermosa 🎂✨</h1>
+<div class="luna"></div>
 
-  <div class="luna"></div>
+<audio id="musica" loop>
+  <source src="CelesateMusic.mp3" type="audio/mpeg">
+</audio>
 
-  <!-- AUDIO (DEBE IR ANTES DEL SCRIPT) -->
-  <audio id="musica" loop>
-    <source src="CelesateMusic.mp3" type="audio/mpeg">
-  </audio>
+<script>
+  // estrellas de fondo
+  for (let i = 0; i < 120; i++) {
+    const s = document.createElement("div");
+    s.className = "estrella";
+    s.style.top = Math.random() * 100 + "vh";
+    s.style.left = Math.random() * 100 + "vw";
+    s.style.animationDelay = Math.random() * 2 + "s";
+    document.body.appendChild(s);
+  }
 
-  <script>
-    // Estrellas de fondo
-    function crearEstrellas() {
-      for (let i = 0; i < 120; i++) {
-        const star = document.createElement('div');
-        star.className = 'estrella';
-        star.style.top = Math.random() * 100 + 'vh';
-        star.style.left = Math.random() * 100 + 'vw';
-        star.style.animationDelay = Math.random() * 2 + 's';
-        document.body.appendChild(star);
-      }
-    }
-    crearEstrellas();
+  // mensajes
+  const mensajes = [
+    "Que tengas un día muy bonito ✨",
+    "Disfruta cada momento 🌙",
+    "Hoy se celebra tu día ⭐",
+    "Que sonrías mucho hoy 💛",
+    "Que te rodee lo bueno 🌟"
+  ];
 
-    // Mensajes que caen
-    const mensajes = [
-      "🌟",
-      "Ojalá tu día sea precioso ✨",
-      "⭐",
-      "Qué bonito que estés cumpliendo",
-      "🌙",
-      "Me alegra conocerte 💛",
-      "⭐",
-      "Que hoy te pasen cosas lindas",
-      "🌟",
-      "Eres una persona especial",
-      "Que tu sonrisa dure todo el día",
-      "🌙"
-    ];
+  function crearMensaje() {
+    const m = document.createElement("div");
+    m.className = "mensaje";
+    m.innerText = mensajes[Math.floor(Math.random() * mensajes.length)];
+    m.style.animationDuration = 7 + Math.random() * 3 + "s";
+    document.body.appendChild(m);
+    setTimeout(() => m.remove(), 10000);
+  }
 
-    function crearMensaje() {
-      const msg = document.createElement("div");
-      msg.className = "mensaje";
-      msg.innerText = mensajes[Math.floor(Math.random() * mensajes.length)];
-      msg.style.animationDuration = 7 + Math.random() * 3 + "s";
-      document.body.appendChild(msg);
-      setTimeout(() => msg.remove(), 10000);
-    }
+  setInterval(crearMensaje, 1500);
 
-    setInterval(crearMensaje, 1500);
+  // estela al mover el dedo
+  document.addEventListener("pointermove", e => {
+    const s = document.createElement("div");
+    s.className = "estrella";
+    s.style.width = "5px";
+    s.style.height = "5px";
+    s.style.top = e.clientY + "px";
+    s.style.left = e.clientX + "px";
+    s.style.transition = "opacity 0.6s, transform 0.6s";
+    document.body.appendChild(s);
 
-    // Estela al mover el dedo
-    document.addEventListener('pointermove', (e) => {
-      const spark = document.createElement('div');
-      spark.className = 'estrella';
-      spark.style.width = '5px';
-      spark.style.height = '5px';
-      spark.style.top = e.clientY + 'px';
-      spark.style.left = e.clientX + 'px';
-      spark.style.opacity = 1;
-      spark.style.transition = 'opacity 0.7s, transform 0.7s';
+    setTimeout(() => {
+      s.style.opacity = 0;
+      s.style.transform = "scale(0)";
+    }, 50);
 
-      document.body.appendChild(spark);
+    setTimeout(() => s.remove(), 700);
+  });
 
-      setTimeout(() => {
-        spark.style.opacity = 0;
-        spark.style.transform = 'scale(0)';
-      }, 50);
+  // música (solo después de tocar)
+  const audio = document.getElementById("musica");
+  function iniciarMusica() {
+    audio.play().catch(()=>{});
+    document.removeEventListener("click", iniciarMusica);
+    document.removeEventListener("touchstart", iniciarMusica);
+  }
 
-      setTimeout(() => spark.remove(), 800);
-    });
-
-    // Música con interacción
-    const audio = document.getElementById("musica");
-
-    function iniciarMusica() {
-      audio.play().catch(() => {});
-      document.removeEventListener("click", iniciarMusica);
-      document.removeEventListener("touchstart", iniciarMusica);
-    }
-
-    document.addEventListener("click", iniciarMusica);
-    document.addEventListener("touchstart", iniciarMusica);
-  </script>
+  document.addEventListener("click", iniciarMusica);
+  document.addEventListener("touchstart", iniciarMusica);
+</script>
 
 </body>
 </html>
