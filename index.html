@@ -39,7 +39,7 @@
       color: white;
       font-size: 1.2rem;
       opacity: 0.9;
-      animation: caer 8s linear infinite;
+      animation: caer 9s linear infinite;
       z-index: 3;
     }
 
@@ -65,28 +65,16 @@
     }
 
     .luna {
-  position: absolute;
-  top: 60px;
-  right: 70px;
-  width: 140px;
-  height: 140px;
-  border-radius: 50%;
-  background: #f5e9b8;
-  box-shadow: 0 0 40px rgba(255,255,200,0.6);
-  overflow: hidden;
-  z-index: 2;
-}
-
-.luna::after {
-  content: "";
-  position: absolute;
-  left: 40px;
-  top: 0;
-  width: 140px;
-  height: 140px;
-  border-radius: 50%;
-  background: #0a0f29;
-}
+      position: absolute;
+      top: 60px;
+      right: 70px;
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: #f5e9b8;
+      box-shadow: 0 0 40px rgba(255,255,200,0.6);
+      z-index: 2;
+    }
 
     @keyframes brilloFondo {
       0% { filter: brightness(1); }
@@ -98,86 +86,89 @@
 
 <body>
 
-<h1>Feliz cumpleaños, hermosa 🎂✨</h1>
-<div class="luna"></div>
+  <h1>Feliz cumpleaños, hermosa 🎂✨</h1>
 
-<script>
-  // estrellas fondo
-  function crearEstrellas() {
-    for (let i = 0; i < 120; i++) {
-      const star = document.createElement('div');
-      star.className = 'estrella';
-      star.style.top = Math.random() * 100 + 'vh';
-      star.style.left = Math.random() * 100 + 'vw';
-      star.style.animationDelay = Math.random() * 2 + 's';
-      document.body.appendChild(star);
+  <div class="luna"></div>
+
+  <!-- AUDIO (DEBE IR ANTES DEL SCRIPT) -->
+  <audio id="musica" loop>
+    <source src="CelesateMusic.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    // Estrellas de fondo
+    function crearEstrellas() {
+      for (let i = 0; i < 120; i++) {
+        const star = document.createElement('div');
+        star.className = 'estrella';
+        star.style.top = Math.random() * 100 + 'vh';
+        star.style.left = Math.random() * 100 + 'vw';
+        star.style.animationDelay = Math.random() * 2 + 's';
+        document.body.appendChild(star);
+      }
     }
-  }
-  crearEstrellas();
+    crearEstrellas();
 
-  // mensajes que caen
-  const mensajes = [
-    "🌟",
-    "Ojalá tu día sea precioso ✨",
-    "⭐",
-    "Qué bonito que estés cumpliendo",
-    "🌙",
-    "Me alegra conocerte 💛",
-    "⭐",
-    "Que hoy te pasen cosas lindas",
-    "🌟",
-    "Eres una persona especial",
-    "Que tu sonrisa dure todo el día",
-    "🌙","🌟",
-  ];
+    // Mensajes que caen
+    const mensajes = [
+      "🌟",
+      "Ojalá tu día sea precioso ✨",
+      "⭐",
+      "Qué bonito que estés cumpliendo",
+      "🌙",
+      "Me alegra conocerte 💛",
+      "⭐",
+      "Que hoy te pasen cosas lindas",
+      "🌟",
+      "Eres una persona especial",
+      "Que tu sonrisa dure todo el día",
+      "🌙"
+    ];
 
-  function crearMensaje() {
-    const msg = document.createElement("div");
-    msg.className = "mensaje";
-    msg.innerText = mensajes[Math.floor(Math.random() * mensajes.length)];
+    function crearMensaje() {
+      const msg = document.createElement("div");
+      msg.className = "mensaje";
+      msg.innerText = mensajes[Math.floor(Math.random() * mensajes.length)];
+      msg.style.animationDuration = 7 + Math.random() * 3 + "s";
+      document.body.appendChild(msg);
+      setTimeout(() => msg.remove(), 10000);
+    }
 
-    msg.style.animationDuration = 7 + Math.random() * 3 + "s";
+    setInterval(crearMensaje, 1500);
 
-    document.body.appendChild(msg);
-    setTimeout(() => msg.remove(), 10000);
-  }
+    // Estela al mover el dedo
+    document.addEventListener('pointermove', (e) => {
+      const spark = document.createElement('div');
+      spark.className = 'estrella';
+      spark.style.width = '5px';
+      spark.style.height = '5px';
+      spark.style.top = e.clientY + 'px';
+      spark.style.left = e.clientX + 'px';
+      spark.style.opacity = 1;
+      spark.style.transition = 'opacity 0.7s, transform 0.7s';
 
-  setInterval(crearMensaje, 1500);
+      document.body.appendChild(spark);
 
-  // estela al mover el dedo
-  document.addEventListener('pointermove', (e) => {
-    const spark = document.createElement('div');
-    spark.className = 'estrella';
-    spark.style.width = '5px';
-    spark.style.height = '5px';
-    spark.style.top = e.clientY + 'px';
-    spark.style.left = e.clientX + 'px';
-    spark.style.opacity = 1;
-    spark.style.transition = 'opacity 0.7s, transform 0.7s';
+      setTimeout(() => {
+        spark.style.opacity = 0;
+        spark.style.transform = 'scale(0)';
+      }, 50);
 
-    document.body.appendChild(spark);
+      setTimeout(() => spark.remove(), 800);
+    });
 
-    setTimeout(() => {
-      spark.style.opacity = 0;
-      spark.style.transform = 'scale(0)';
-    }, 50);
+    // Música con interacción
+    const audio = document.getElementById("musica");
 
-    setTimeout(() => spark.remove(), 800);
-  });
+    function iniciarMusica() {
+      audio.play().catch(() => {});
+      document.removeEventListener("click", iniciarMusica);
+      document.removeEventListener("touchstart", iniciarMusica);
+    }
 
-  const audio = document.getElementById("musica");
+    document.addEventListener("click", iniciarMusica);
+    document.addEventListener("touchstart", iniciarMusica);
+  </script>
 
-  function iniciarMusica() {
-    audio.play().catch(() => {});
-    document.removeEventListener("click", iniciarMusica);
-    document.removeEventListener("touchstart", iniciarMusica);
-  }
-
-  document.addEventListener("click", iniciarMusica);
-  document.addEventListener("touchstart", iniciarMusica);
-</script>
-<audio id="musica" loop>
-  <source src="CelesateMusic.mp3" type="audio/mpeg">
-</audio>
 </body>
 </html>
